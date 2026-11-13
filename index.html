@@ -17,6 +17,7 @@
 html,body{height:100%;overflow:hidden}
 body{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#fff;background:var(--c3);-webkit-font-smoothing:antialiased}
 body.idle[data-s=play]{cursor:none}
+body.tn.idle{cursor:auto}
 body::after{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(ellipse at 30% 50%,transparent 20%,rgba(0,0,0,.45) 100%);pointer-events:none}
 #bg{position:fixed;inset:0;z-index:-2;background:var(--c3);overflow:hidden}
 #bg i{position:absolute;width:70vmax;height:70vmax;border-radius:50%;filter:blur(90px);opacity:.75;animation:drift 28s ease-in-out infinite alternate}
@@ -59,6 +60,8 @@ body.solo #lyr{opacity:0;pointer-events:none}
 .m span{transition:opacity .22s}
 .t .m span:not(.d){opacity:.38}
 .t .m span.n{box-shadow:0 .09em 0 0 rgba(255,255,255,.7);animation:caret 1.2s ease-in-out infinite}
+body.tn .t .m span:not(.d){opacity:1}
+body.tn .t .m span.n{box-shadow:none;animation:none}
 @keyframes caret{50%{box-shadow:0 .09em 0 0 rgba(255,255,255,.1)}}
 .a{display:flex;align-items:center;gap:.7em;margin-top:.4em;font-size:.44em;font-weight:600;line-height:1.3;letter-spacing:.03em;opacity:.6;text-shadow:none;transition:opacity .55s}
 .a::before{content:"";flex:none;width:1.6em;height:1px;background:currentColor;opacity:.7}
@@ -74,17 +77,44 @@ body.solo #lyr{opacity:0;pointer-events:none}
 #cd .tr{stroke:rgba(255,255,255,.2)}
 #cd .pg{stroke:#fff;stroke-linecap:round;stroke-dasharray:100.53;stroke-dashoffset:100.53}
 #cd b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;letter-spacing:0;text-shadow:none}
-#fs{position:fixed;top:calc(env(safe-area-inset-top,0px) + 16px);right:16px;z-index:5;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(12px);cursor:pointer;opacity:.7;transition:opacity .4s,background .25s,transform .25s}
-#fs:hover{opacity:1;background:rgba(255,255,255,.18);transform:scale(1.06)}
-#fs svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+#fs,#tb{position:fixed;top:calc(env(safe-area-inset-top,0px) + 16px);right:16px;z-index:5;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(12px);cursor:pointer;opacity:.7;transition:opacity .4s,background .25s,transform .25s}
+#tb{right:64px}
+#fs:hover,#tb:hover{opacity:1;background:rgba(255,255,255,.18);transform:scale(1.06)}
+#fs svg,#tb svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 #fs .x{display:none}
 body.fs #fs .e{display:none}
 body.fs #fs .x{display:block}
 body[data-s=boot] #fs{display:none}
-body.idle #fs{opacity:0;pointer-events:none}
+body:not([data-s=play]) #tb,body.tn #tb{display:none}
+body.idle #fs,body.idle #tb{opacity:0;pointer-events:none}
 #kb{position:fixed;left:-200px;top:0;width:1px;height:1px;opacity:0;border:0;padding:0;font-size:16px;pointer-events:none}
 #note{position:fixed;left:50%;bottom:4vh;z-index:6;transform:translate(-50%,8px);padding:10px 18px;border-radius:999px;background:rgba(0,0,0,.4);backdrop-filter:blur(12px);font-size:.85rem;font-weight:600;color:rgba(255,255,255,.85);opacity:0;pointer-events:none;transition:opacity .4s,transform .4s}
 #note.v{opacity:1;transform:translate(-50%,0)}
+#tune{position:fixed;left:0;right:0;margin:0 auto;bottom:calc(env(safe-area-inset-bottom,0px) + 4vh);z-index:4;width:min(92vw,440px);display:none;flex-direction:column;align-items:center;gap:14px;padding:20px 22px 16px;border-radius:26px;background:rgba(0,0,0,.36);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(26px);-webkit-backdrop-filter:blur(26px);animation:rise .7s ease both;user-select:none;-webkit-user-select:none}
+body.tn[data-s=play] #tune{display:flex}
+#th{font-size:.9rem;font-weight:600;line-height:1.4;text-align:center;color:rgba(255,255,255,.7);min-height:2.5em;display:flex;align-items:center}
+#rd{display:flex;align-items:center;gap:16px}
+#pd{width:34px;height:34px;border-radius:50%;background:#fff;opacity:.12;box-shadow:0 0 30px rgba(255,255,255,.75);flex:none}
+#ov{font-size:2.6rem;font-weight:800;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums;min-width:4.4ch;text-align:right}
+#rd span{font-size:.95rem;font-weight:600;color:rgba(255,255,255,.5);margin-left:-8px}
+#gw{position:relative;width:100%}
+#gw::before{content:"";position:absolute;left:2px;right:2px;top:11px;height:6px;background:repeating-linear-gradient(90deg,rgba(255,255,255,.2) 0 1px,transparent 1px calc(100%/15));pointer-events:none}
+#zr{position:absolute;left:33.33%;top:5px;bottom:5px;width:1px;background:rgba(255,255,255,.45);pointer-events:none}
+#sl{-webkit-appearance:none;appearance:none;display:block;position:relative;width:100%;height:28px;background:transparent;cursor:pointer;outline:none}
+#sl::-webkit-slider-runnable-track{height:2px;background:rgba(255,255,255,.28);border-radius:2px}
+#sl::-moz-range-track{height:2px;background:rgba(255,255,255,.28);border-radius:2px}
+#sl::-webkit-slider-thumb{-webkit-appearance:none;width:4px;height:26px;margin-top:-12px;border-radius:3px;background:#fff;box-shadow:0 0 14px rgba(255,255,255,.8)}
+#sl::-moz-range-thumb{width:4px;height:26px;border:0;border-radius:3px;background:#fff;box-shadow:0 0 14px rgba(255,255,255,.8)}
+#nu,#ac{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap}
+#tune button{font:inherit;font-weight:600;font-size:.9rem;color:#fff;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);padding:8px 15px;border-radius:999px;cursor:pointer;touch-action:manipulation;transition:background .25s,transform .2s,opacity .25s}
+#tune button:hover{background:rgba(255,255,255,.2)}
+#tune button:active{transform:scale(.95)}
+#tune button:disabled{opacity:.35;pointer-events:none}
+#tune #tp,#tune #lk{padding:11px 28px}
+#tune #lk{background:#fff;color:#111;border-color:#fff}
+#tune #lk:hover{background:rgba(255,255,255,.88)}
+#tune #sk{background:none;border:0;padding:4px 10px;font-size:.8rem;opacity:.5}
+#tune #sk:hover{background:none;opacity:.85}
 @media(max-width:800px){
 #app,body.solo #app{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr);align-items:start}
 body.solo #app{grid-template-rows:1fr 0fr;align-items:center}
@@ -95,6 +125,8 @@ body.solo #art{width:min(72vw,50vh)}
 #lyr{height:100%;min-height:0}
 .l{font-size:clamp(1.35rem,6vw,2rem);padding:.4em 6vw .4em 13vw}
 #cd{left:2.5vw}
+#tune{bottom:calc(env(safe-area-inset-bottom,0px) + 2vh);gap:10px;padding:16px 16px 12px;border-radius:22px}
+#ov{font-size:2.2rem}
 }
 </style>
 </head>
@@ -107,6 +139,15 @@ body.solo #art{width:min(72vw,50vh)}
 <section id="side"><img id="art" alt=""><h1 id="ttl"></h1><p id="sub"></p></section>
 <section id="lyr"><div id="box"></div></section>
 </main>
+<div id="tune">
+<p id="th"></p>
+<div id="rd"><i id="pd"></i><b id="ov">0</b><span>ms</span></div>
+<div id="gw"><div id="zr"></div><input id="sl" type="range" min="-500" max="1000" step="5" value="0" aria-label="Timing offset"></div>
+<div id="nu"><button data-n="-25">−25</button><button data-n="-5">−5</button><button data-n="5">+5</button><button data-n="25">+25</button></div>
+<div id="ac"><button id="tp">Tap</button><button id="lk" disabled>Lock in</button></div>
+<button id="sk">Skip for now</button>
+</div>
+<button id="tb" aria-label="Tune timing"><svg viewBox="0 0 24 24"><path d="M4 8h9M17 8h3M4 16h3M11 16h9"/><circle cx="15" cy="8" r="2"/><circle cx="9" cy="16" r="2"/></svg></button>
 <button id="fs" aria-label="Toggle fullscreen"><svg class="e" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg><svg class="x" viewBox="0 0 24 24"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5"/></svg></button>
 <input id="kb" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-hidden="true" tabindex="-1">
 <div id="note"></div>
@@ -114,15 +155,17 @@ body.solo #art{width:min(72vw,50vh)}
 const CID='ff5af985ee254039b6d172039edeea90';
 const REDIRECT=location.origin+location.pathname;
 const SCOPE='user-read-playback-state user-read-currently-playing user-modify-playback-state';
-const LEAD=.15,LOOK=4,GAP=450,SETTLE=900;
+const LEAD=.15,LOOK=4,GAP=450,SETTLE=900,REACT=.12;
 const K='iwv';
 const $=id=>document.getElementById(id);
 const art=$('art'),ttl=$('ttl'),sub=$('sub'),box=$('box'),lyr=$('lyr'),kb=$('kb'),fsb=$('fs'),nt=$('note');
+const tune=$('tune'),sl=$('sl'),ov=$('ov'),pd=$('pd'),th=$('th'),tp=$('tp'),lk=$('lk'),sk=$('sk'),tb=$('tb');
 let cur=null,seq=0,timer=0,lines=[],els=[],act=-2;
 let anchor={pos:0,at:0,playing:false};
 let fx=[],ft=[],fl=[],fo=[],total=0,ptr=0,tl=-1;
 let armed=false,ready=false,locked=false,hold=false,sent='pause',busy=false,last=0,lead=.35,pq=null,cmdv=0,polling=false,nxt=0;
 let cdN=-1,cdOn=false,cdV=-1,nto=0,wt=0,prev='';
+let off=0,tuned=false,tuning=false,manual=false,taps=[],prevOff=0,fi=-1;
 
 const cd=document.createElement('div');
 cd.id='cd';
@@ -132,10 +175,15 @@ const ring=cd.querySelector('.pg'),cdb=cd.querySelector('b');
 const FM={ß:'ss',ø:'o',æ:'ae',œ:'oe',ł:'l',đ:'d',ı:'i',þ:'th',ð:'d'};
 const fold=s=>s.toLowerCase().replace(/[ßøæœłđıþð]/g,m=>FM[m]).normalize('NFD').replace(/[^a-z]/g,'');
 const clamp=(v,a,z)=>Math.min(z,Math.max(a,v));
+const med=a=>{const s=[...a].sort((x,y)=>x-y),m=s.length>>1;return s.length%2?s[m]:(s[m-1]+s[m])/2};
 const setState=s=>{document.body.dataset.s=s};
 const store=()=>JSON.parse(localStorage.getItem(K)||'null');
 const pos=()=>anchor.playing?anchor.pos+performance.now()-anchor.at:anchor.pos;
+const eff=()=>pos()/1000-off;
 const gate=()=>ptr<total?ft[Math.min(ptr+LOOK,total-1)]:Infinity;
+
+const saved=parseFloat(localStorage.getItem(K+'o'));
+if(isFinite(saved)){off=clamp(saved,-.5,1);tuned=true}
 
 function note(s){
 nt.textContent=s;
@@ -194,12 +242,12 @@ document.title='isawavision';
 
 function sync(pl,np){
 const pr=pos();
-if(Math.abs(np-pr)>1500)syncPtr(np/1000);
+if(Math.abs(np-pr)>1500)syncPtr(np/1000-off);
 if(armed&&!pl&&sent==='play'&&want()==='play'&&performance.now()-last>1500)hold=true;
 if(pl)hold=false;
 sent=pl?'play':'pause';
 if(!pl&&pq){
-if(pq.p===ptr)lead=clamp(lead+(np/1000-pq.g)*.5,.08,.9);
+if(pq.p===ptr)lead=clamp(lead+(np/1000-off-pq.g)*.5,.08,.9);
 pq=null;
 }
 if(pl&&anchor.playing){
@@ -243,7 +291,7 @@ nxt=0;
 function want(){
 if(!armed||hold||!cur)return null;
 if(!total)return'play';
-const g=gate()-pos()/1000;
+const g=gate()-eff();
 return g>(sent==='play'?lead:Math.max(.9,lead+.45))?'play':'pause';
 }
 
@@ -281,8 +329,7 @@ busy=false;
 if(!rate)last=performance.now();
 }
 
-async function begin(){
-setState('wait');
+async function arm(){
 let j=null;
 try{
 const r=await api('/me/player');
@@ -306,7 +353,84 @@ if(!locked&&j.is_playing)await new Promise(r=>setTimeout(r,1000));
 }else{
 armed=true;
 }
+}
+
+async function begin(){
+setState('wait');
+if(tuned)await arm();
+else startTune();
 poll();
+}
+
+function hint(){
+th.textContent=!lines.length?'Play a song with lyrics to tune your timing':manual||taps.length>=5?'Nudge until the flash lands right on the voice':'Tap the moment each line begins · '+taps.length+'/5';
+}
+
+function setOff(v){
+off=Math.round(clamp(v,-.5,1)*200)/200;
+sl.value=Math.round(off*1000);
+const ms=Math.round(off*1000);
+ov.textContent=(ms>0?'+':'')+ms;
+if(lines.length)syncPtr(eff());
+}
+
+function startTune(){
+prevOff=off;
+taps=[];
+manual=false;
+tuning=true;
+armed=false;
+ready=false;
+hold=false;
+document.body.classList.add('tn');
+setOff(off);
+hint();
+}
+
+async function exitTune(save){
+if(!tuning)return;
+tuning=false;
+document.body.classList.remove('tn');
+if(save){
+localStorage.setItem(K+'o',String(off));
+tuned=true;
+note('Timing locked in');
+}else{
+setOff(prevOff);
+}
+await arm();
+if(ready)setState('ready');
+}
+
+function tap(){
+if(!tuning||!lines.length||!anchor.playing)return;
+if(manual){manual=false;taps=[]}
+const p=pos()/1000;
+let k=find(p+.35);
+while(k>=0&&!lines[k].m)k--;
+if(k<0)return;
+const e=p-lines[k].t;
+if(e>1.2)return;
+taps.push(e);
+if(taps.length>9)taps.shift();
+if(taps.length>=5){
+const m0=med(taps),keep=taps.filter(x=>Math.abs(x-m0)<.25);
+if(keep.length>=4)setOff(med(keep)-REACT);
+}
+hint();
+}
+
+function flare(t){
+const i=find(t);
+if(i===fi)return;
+fi=i;
+if(i>=0&&lines[i].m&&anchor.playing&&t-lines[i].t<.1){
+pd.style.transition='none';
+pd.style.opacity='1';
+void pd.offsetWidth;
+pd.style.transition='opacity .4s ease-out';
+pd.style.opacity='.12';
+}
 }
 
 function setTrack(it){
@@ -318,7 +442,9 @@ ttl.textContent=it.name;
 sub.textContent=it.artists.map(a=>a.name).join(', ');
 document.title=it.name+' · '+it.artists[0].name;
 lines=[];els=[];act=-2;box.innerHTML='';
-fx=[];ft=[];fl=[];fo=[];total=0;ptr=0;tl=-1;hold=false;pq=null;cdN=-1;cdOn=false;
+fx=[];ft=[];fl=[];fo=[];total=0;ptr=0;tl=-1;hold=false;pq=null;cdN=-1;cdOn=false;fi=-1;
+lk.disabled=true;
+hint();
 const im=it.album.images[0];
 if(im)cover(im.url,my);
 lyrics({name:it.name,clean:clean(it.name),artist:it.artists[0].name,album:it.album.name,dur:it.duration_ms/1000},my);
@@ -470,7 +596,7 @@ function build(ls){
 lines=ls;
 box.innerHTML='';
 fx=[];ft=[];fl=[];fo=[];
-cdN=-1;cdOn=false;tl=-1;
+cdN=-1;cdOn=false;tl=-1;fi=-1;
 let letters=0,chars=0;
 ls.forEach(l=>{
 if(l.m){
@@ -524,7 +650,9 @@ return d;
 total=fx.length;
 act=-2;
 document.body.classList.toggle('solo',!ls.length);
-if(ls.length){syncPtr(pos()/1000);paint()}
+lk.disabled=!ls.length;
+hint();
+if(ls.length){syncPtr(eff());paint()}
 }
 
 function syncPtr(s){
@@ -569,8 +697,9 @@ if(ok){hold=false;show();drive()}
 function seek(s){
 last=performance.now();
 cmdv++;
-api('/me/player/seek?position_ms='+Math.round(s*1000),{method:'PUT'}).then(()=>{last=performance.now();kick(900)}).catch(()=>{});
-anchor={pos:s*1000,at:performance.now(),playing:anchor.playing};
+const p=Math.max(0,(s+off)*1000);
+api('/me/player/seek?position_ms='+Math.round(p),{method:'PUT'}).then(()=>{last=performance.now();kick(900)}).catch(()=>{});
+anchor={pos:p,at:performance.now(),playing:anchor.playing};
 syncPtr(s);
 }
 
@@ -610,16 +739,31 @@ ring.style.strokeDashoffset=(100.53*(1-r/10)).toFixed(2);
 
 function frame(){
 if(lines.length){
-const t=pos()/1000;
-let i=find(t+LEAD);
-if(total&&ptr<total&&fo[ptr]>0&&fl[ptr]<i)i=fl[ptr];
+const t=eff();
+let i=find(t+(tuning?0:LEAD));
+if(armed&&total&&ptr<total&&fo[ptr]>0&&fl[ptr]<i)i=fl[ptr];
 if(i!==act){act=i;paint()}
+if(tuning){
+if(cdOn){cd.classList.remove('v');cdOn=false}
+flare(t);
+}else{
 tick(t);
+}
 }
 requestAnimationFrame(frame);
 }
 
 document.addEventListener('keydown',e=>{
+if(tuning&&document.body.dataset.s==='play'){
+if(e.key===' '){e.preventDefault();if(!e.repeat)tap();return}
+if(e.target!==sl&&(e.key==='ArrowLeft'||e.key==='ArrowRight')){
+e.preventDefault();
+manual=true;
+setOff(off+(e.key==='ArrowRight'?1:-1)*(e.shiftKey?.025:.005));
+hint();
+}
+return;
+}
 if(document.body.dataset.s!=='play'||!e.key||e.ctrlKey||e.metaKey||e.altKey||e.isComposing||e.key.length!==1)return;
 e.preventDefault();
 type(e.key);
@@ -636,6 +780,40 @@ prev=v;
 if(v.length>32){kb.value='';prev=''}
 });
 
+tune.addEventListener('mousedown',e=>{if(e.target.closest('button'))e.preventDefault()});
+tp.addEventListener('pointerdown',e=>{e.preventDefault();tap()});
+tune.querySelectorAll('[data-n]').forEach(b=>{
+b.onclick=()=>{
+manual=true;
+setOff(off+ +b.dataset.n/1000);
+hint();
+};
+});
+sl.addEventListener('input',()=>{
+manual=true;
+setOff(sl.value/1000);
+hint();
+});
+lk.onclick=()=>exitTune(true);
+sk.onclick=()=>exitTune(false);
+
+tb.onclick=async()=>{
+if(tuning||document.body.dataset.s!=='play')return;
+startTune();
+if(!anchor.playing){
+last=performance.now();
+cmdv++;
+try{
+const r=await api('/me/player/play',{method:'PUT'});
+if(r.ok){
+sent='play';
+anchor={pos:pos(),at:performance.now()+200,playing:true};
+kick(1000);
+}
+}catch{}
+}
+};
+
 $('rs').onclick=()=>{
 ready=false;
 armed=true;
@@ -649,6 +827,7 @@ const de=document.documentElement;
 const fsOn=()=>document.fullscreenElement||document.webkitFullscreenElement;
 if(!(de.requestFullscreen||de.webkitRequestFullscreen)){
 fsb.remove();
+tb.style.right='16px';
 }else{
 fsb.onmousedown=e=>e.preventDefault();
 fsb.onclick=()=>{
@@ -678,6 +857,7 @@ wake();
 addEventListener('resize',paint);
 setInterval(drive,100);
 $('go').onclick=login;
+setOff(off);
 
 (async()=>{
 const p=new URLSearchParams(location.search);
